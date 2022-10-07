@@ -5,23 +5,11 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { navigate } from './utils';
 
-interface RooteProps {
-  path: string;
-  component: ReactNode;
-}
 type RouterNode = ReactElement<{ path: string }>;
-
 interface RooterProps {
   children: RouterNode | RouterNode[];
-}
-
-export function navigate(path: string) {
-  window.history.pushState(path, '', path);
-}
-
-export function Route({ component }: RooteProps) {
-  return <>{component}</>;
 }
 
 export function Router({ children }: RooterProps) {

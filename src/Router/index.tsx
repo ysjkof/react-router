@@ -1,3 +1,5 @@
-import { Route, Router } from './Router';
+import { Route } from './Route';
+import { Router } from './Router';
+import { useRouter } from './useRouter';
 
-export { Router, Route };
+export { Router, Route, useRouter };
