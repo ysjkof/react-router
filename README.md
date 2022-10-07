@@ -1,5 +1,11 @@
 # React와 History API 사용하여 SPA Router 기능 구현하기
 
+## 구현 화면
+![Oct-07-2022 15-11-16](https://user-images.githubusercontent.com/77876601/194479785-44658a58-f6fa-4bd2-88d4-cc93afff1cd0.gif)
+
+
+## 구현 명세
+
 1. 해당 주소로 진입했을 때 아래 주소에 맞는 페이지가 렌더링 되어야 한다.
 
 - `/` → `root` 페이지
