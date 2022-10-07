@@ -42,11 +42,11 @@ export function Router({ children }: RooterProps) {
       const element = children.find((route) => route.props.path === pathname);
       setRenderElement(element || ERR_NOT_FOUND);
     }
-    selectElement(location.pathname);
+    selectElement(window.location.pathname);
 
     function checkRoutes() {
       const { state } = window.history;
-      if (prevPathname === state) return;
+      if (!state || prevPathname === state) return;
       prevPathname = state;
       selectElement(state);
     }
