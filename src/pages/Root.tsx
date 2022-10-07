@@ -1,8 +1,17 @@
+import { useRouter } from '../Router';
+
 export default function Root() {
+  const { push } = useRouter();
+
+  const goAbout = () => {
+    push('/about');
+  };
   return (
-    <div className="root">
+    <div className="box">
       <h1>root</h1>
-      <a href="/about">Go About</a>
+      <button type="button" onClick={goAbout}>
+        Go About Button
+      </button>
     </div>
   );
 }
