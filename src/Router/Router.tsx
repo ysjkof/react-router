@@ -39,7 +39,7 @@ export function Router({ children }: RooterProps) {
       selectElement(state);
     }
 
-    function handleClickAnchor(event: MouseEvent) {
+    function handleClickAnchor(event: globalThis.MouseEvent) {
       event.preventDefault();
       const { tagName, href } = event.target as HTMLAnchorElement;
       if (href && tagName === 'A') {
@@ -49,11 +49,9 @@ export function Router({ children }: RooterProps) {
       }
     }
 
-    // @ts-ignore
     document.body.addEventListener('click', handleClickAnchor);
     window.setInterval(checkRoutes);
 
-    // @ts-ignore
     return () => document.body.removeEventListener('click', handleClickAnchor);
   }, []);
 
