@@ -1,11 +1,4 @@
-import {
-  MouseEvent,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react';
-import { navigate } from './utils';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 
 type RouterNode = ReactElement<{ path: string }>;
 interface RooterProps {
@@ -20,39 +13,38 @@ export function Router({ children }: RooterProps) {
   );
 
   useEffect(() => {
+    function isMatchPathname(firstPath: string, secondPath: string) {
+      return firstPath === secondPath;
+    }
     function selectElement(pathname: string) {
       if (!Array.isArray(children)) {
-        const isMatchPathname = children.props.path === pathname;
-        setRenderElement(isMatchPathname ? children : ERR_NOT_FOUND);
+        setRenderElement(
+          isMatchPathname(children.props.path, pathname)
+            ? children
+            : ERR_NOT_FOUND
+        );
         return;
       }
-
-      const element = children.find((route) => route.props.path === pathname);
-      setRenderElement(element || ERR_NOT_FOUND);
-    }
-    selectElement(window.location.pathname);
-
-    function checkRoutes() {
-      const { state } = window.history;
-      if (!state || prevPathname === state) return;
-      prevPathname = state;
-      selectElement(state);
+      setRenderElement(
+        children.find((route) => isMatchPathname(route.props.path, pathname)) ||
+          ERR_NOT_FOUND
+      );
     }
 
-    function handleClickAnchor(event: globalThis.MouseEvent) {
-      event.preventDefault();
-      const { tagName, href } = event.target as HTMLAnchorElement;
-      if (href && tagName === 'A') {
-        const { origin } = location;
-        const { pathname } = new URL(href, origin);
-        navigate(pathname);
-      }
+    function changeRenderElement() {
+      const { state: pathname } = window.history;
+      if (!pathname || prevPathname === pathname) return;
+      prevPathname = pathname;
+      selectElement(pathname);
     }
 
-    document.body.addEventListener('click', handleClickAnchor);
-    window.setInterval(checkRoutes);
+    function init() {
+      selectElement(window.location.pathname);
+      window.addEventListener('popstate', changeRenderElement);
+    }
 
-    return () => document.body.removeEventListener('click', handleClickAnchor);
+    init();
+    return () => window.removeEventListener('popstate', changeRenderElement);
   }, []);
 
   return <>{renderElement}</>;

@@ -1,8 +1,7 @@
-import { navigate } from './utils';
-
 export const useRouter = () => {
-  function push(url: string) {
-    navigate(url);
+  function push(path: string) {
+    window.history.pushState(path, '', path);
+    window.dispatchEvent(new Event('popstate'));
   }
 
   return { push };
